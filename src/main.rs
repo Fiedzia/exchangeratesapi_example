@@ -38,7 +38,10 @@ use utils::{reqwest_error_to_string, json_error_to_string};
 const ACCEPTABLE_RETRIEVAL_FAILURE_FRACTION: f64 = 0.05;
 const EXCHANGE_URL: &str = "https://api.exchangeratesapi.io/";
 
-
+/*
+ * Retrieve exchange rates from external service or cache if available,
+ * cache returned value in local file
+ */
 pub fn get_exchange_rate(currency_from: &str, currency_to: &str, date: &NaiveDate) -> Result<f64, String> {
 
     let formatted_date:String = date.format("%F").to_string();
@@ -97,7 +100,10 @@ pub fn get_exchange_rate(currency_from: &str, currency_to: &str, date: &NaiveDat
     Ok(rate_value)
 }
 
-
+/*
+ *  Obtain exchange rates for given currencies and data range
+ *  to make testing easier, exchanges are obtained via ExchangeProvider
+ * */
 pub fn exchange_rate_overview(opt: &Opt, exchange_provider: ExchangeProvider) -> ExchangeResult {
     if opt.currency_from.to_lowercase() == opt.currency_to.to_lowercase() {
         return Err("You have to pick two different currencies".to_string());
